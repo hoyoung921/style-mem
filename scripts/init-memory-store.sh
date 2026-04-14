@@ -15,26 +15,6 @@ STORE="$ROOT/style-mem"
 
 mkdir -p "$STORE/code" "$STORE/ux"
 
-# INDEX.md
-if [[ ! -f "$STORE/INDEX.md" ]]; then
-  cat > "$STORE/INDEX.md" <<'EOF'
-# style-mem Index
-
-Last updated: (never)
-
-## Code Conventions
-- [naming](code/naming.md) — 변수/함수/타입 네이밍 규칙 (0 established, 0 observed)
-- [architecture](code/architecture.md) — MVVM/RxSwift 구조 패턴 (0 established, 0 observed)
-- [comments](code/comments.md) — 주석 작성 규칙 (0 established, 0 observed)
-- [error_handling](code/error_handling.md) — 에러 처리 패턴 (0 established, 0 observed)
-- [ui_layout](code/ui_layout.md) — Auto Layout / SnapKit 작성 스타일 (0 established, 0 observed)
-
-## UX Patterns
-- [ui_interaction](ux/ui_interaction.md) — 로딩/빈상태/에러/토스트 UI 패턴 (0 established, 0 observed)
-- [navigation](ux/navigation.md) — 화면 전환 규칙 (0 established, 0 observed)
-EOF
-fi
-
 # rejected.md
 if [[ ! -f "$STORE/rejected.md" ]]; then
   cat > "$STORE/rejected.md" <<'EOF'
@@ -76,15 +56,15 @@ write_category "$STORE/code/ui_layout.md"      ui_layout      code
 write_category "$STORE/ux/ui_interaction.md"   ui_interaction ux
 write_category "$STORE/ux/navigation.md"       navigation     ux
 
-# MEMORY.md index line injection
+# MEMORY.md style-mem section injection
 MEMORY="$ROOT/MEMORY.md"
-LINE='- [style-mem index](style-mem/INDEX.md) — 학습된 코딩/UX 스타일 (점진 강화)'
+HEADER='## style-mem rules'
 if [[ -f "$MEMORY" ]]; then
-  if ! grep -Fq "style-mem/INDEX.md" "$MEMORY"; then
-    printf '\n%s\n' "$LINE" >> "$MEMORY"
+  if ! grep -Fq "$HEADER" "$MEMORY"; then
+    printf '\n%s\n\n_(none yet — rules appear here as they are learned)_\n' "$HEADER" >> "$MEMORY"
   fi
 else
-  printf '%s\n' "$LINE" > "$MEMORY"
+  printf '%s\n\n_(none yet — rules appear here as they are learned)_\n' "$HEADER" > "$MEMORY"
 fi
 
 echo "style-mem store initialized at $STORE"

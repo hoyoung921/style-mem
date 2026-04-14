@@ -32,13 +32,12 @@ Restart Claude Code so the plugin manifest is picked up.
 All rules live under your project's Claude Code auto-memory directory:
 ```
 <memory_root>/style-mem/
-├── INDEX.md
 ├── rejected.md
 ├── code/{naming,architecture,comments,error_handling,ui_layout}.md
 └── ux/{ui_interaction,navigation}.md
 ```
 
-MEMORY.md only references `style-mem/INDEX.md` on a single line, so the 200-line memory budget is preserved.
+The project's `MEMORY.md` gains a `## style-mem rules` section that indexes every saved rule as one line, pointing into the category files. This keeps the index visible in every future conversation while category files hold the full rule bodies. MEMORY.md is kept under 200 lines — hooks on entries are optional and may be trimmed if space runs low.
 
 ## Design docs
 

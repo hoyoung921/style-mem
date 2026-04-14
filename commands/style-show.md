@@ -22,9 +22,9 @@ Show learned style rules.
    `style-mem 저장소가 없습니다. 'bash ~/Documents/project/style-mem/scripts/init-memory-store.sh <memory_root>' 로 먼저 초기화하세요.`
    Then stop.
 
-3. Read `INDEX.md` using the Read tool. Parse category list and counts.
+3. Read the project's `MEMORY.md` and extract the `## style-mem rules` section. Parse each line into `(category, rule_id, category_file)`.
 
-4. For each category file referenced in INDEX.md (filtered by `--category` if provided):
+4. For each category file referenced in the section (filtered by `--category` if provided):
    - Use the Read tool on the category file.
    - Extract the `## Established` section.
    - If `--all`, also extract `## Observed`.

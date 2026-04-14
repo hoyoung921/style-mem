@@ -26,7 +26,8 @@ The caller (a command or hook) tells you which mode you are in:
 ## Procedure
 
 1. **Load memory state**
-   - Read `INDEX.md`, every category file, and `rejected.md` from the project's `style-mem/` store.
+   - Read every category file under `style-mem/` and `style-mem/rejected.md`.
+   - Also read the `## style-mem rules` section of the project's `MEMORY.md` (the index).
    - Build in memory: `existing_rules[(category, normalized_text)]` and `rejected_rules[(category, normalized_text)]`.
 
 2. **Extract signals**
@@ -70,7 +71,12 @@ The caller (a command or hook) tells you which mode you are in:
    - `저장`: append under `## Observed` in the category file with frontmatter-style metadata block.
    - `수정`: apply the user's edit, then save as `저장`.
    - `건너뛰기`: no write.
-   - After writing, update `INDEX.md` counts and `updated:` field.
+   - After writing, update the category file's `updated:` field, and append one
+     line to the `## style-mem rules` section of `MEMORY.md` in this shape:
+     `- [<category> R<id>: <title>](style-mem/<category_file>.md#r<id>) — <hook>`
+     where `<hook>` is an optional short phrase (drop it if MEMORY.md is
+     approaching 200 lines). Remove any `_(none yet ...)_` placeholder line
+     in the section on first insert.
 
 7. **Return a summary**
    - Lines saved / skipped, per category.
@@ -97,5 +103,6 @@ Rule IDs are unique per category file. Read the file first to pick the next free
 ## Safety rules (non-negotiable)
 - NEVER write to any file without first showing the candidate to the user and receiving an explicit `저장` or `수정` answer via AskUserQuestion.
 - NEVER propose rules that already exist in `rejected.md`.
-- NEVER exceed 200 lines in MEMORY.md; this skill does not touch MEMORY.md at all (only INDEX.md and category files).
+- Only modify the `## style-mem rules` section of MEMORY.md. Never touch other sections.
+- Keep MEMORY.md under 200 lines. If near the limit, drop the optional hook from new entries or shorten titles rather than bloating the file.
 - ALWAYS record evidence (file path + line number, or conversation excerpt) for each rule.
