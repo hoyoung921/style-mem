@@ -39,8 +39,22 @@ The caller (a command or hook) tells you which mode you are in:
    - Classify into one of the 7 categories. If it doesn't fit, drop it.
 
 3. **Dedupe and filter**
-   - If normalized text matches an existing rule: do NOT create a new candidate. Instead emit a `reinforce` candidate: `{category, rule_id, delta: +1}`.
+   - If normalized text exactly matches an existing rule: do NOT create a new candidate. Instead emit a `reinforce` candidate: `{category, rule_id, delta: +1}`.
    - If normalized text matches `rejected.md`: drop entirely. Do not propose.
+   - **Semantic duplicate check (LLM judge, in-context).** For every remaining
+     candidate that survived the exact-match step:
+     a. Gather the existing rules in the **same category** (Observed +
+        Established). If 0 rules, skip this step.
+     b. Cap the comparison set at 20 most recent rules to keep context small.
+     c. Reason in your own context: "Does this candidate mean the same thing
+        as any of these existing rules, ignoring wording differences?"
+     d. Outcomes:
+        - **Clear duplicate of `R<id>`** → keep the candidate, but tag it
+          `suspected_duplicate_of: R<id>` so step 5 can show the tag.
+        - **Different** → no tag, proceed normally.
+        - **Ambiguous** → no tag (be conservative; let the user decide).
+   - Never auto-merge or auto-reinforce based on the LLM judge alone — the
+     user always sees the candidate and makes the final call in step 5.
 
 4. **Assign initial confidence**
    - conversation mode: 0.3
@@ -55,6 +69,12 @@ The caller (a command or hook) tells you which mode you are in:
      For each candidate, display the single-rule shape as text first, then
      invoke `AskUserQuestion` with exactly one question whose options are:
      `저장`, `수정`, `건너뛰기`.
+   - If the candidate carries `suspected_duplicate_of: R<id>`, append one
+     line to the displayed single-rule shape **before** the AskUserQuestion
+     call:
+     `⚠️ 기존 R<id>과(와) 중복으로 감지됨. '저장' 을 고르면 새 규칙 대신 R<id>의 강화(+1)로 처리됩니다.`
+     Then `저장` resolves as a `reinforce` for R<id> (not a new rule);
+     `수정` still creates a new rule from the edited text; `건너뛰기` does nothing.
    - Wait for the answer, resolve that rule, then move to the next candidate
      with another `AskUserQuestion` call. Never batch multiple candidates
      into a single AskUserQuestion call or a single prompt.
@@ -68,8 +88,9 @@ The caller (a command or hook) tells you which mode you are in:
      in Korean and go through AskUserQuestion, one rule at a time.
 
 6. **Persist**
-   - `저장`: append under `## Observed` in the category file with frontmatter-style metadata block.
-   - `수정`: apply the user's edit, then save as `저장`.
+   - `저장` (plain candidate): append under `## Observed` in the category file with frontmatter-style metadata block.
+   - `저장` (candidate tagged `suspected_duplicate_of: R<id>`): do NOT append. Instead bump `Observed count` by 1 and set `Last reinforced: <today>` on R<id>.
+   - `수정`: apply the user's edit, then save as a new rule (even if the original was tagged — edited text is treated as distinct).
    - `건너뛰기`: no write.
    - After writing, update the category file's `updated:` field, and append one
      line to the `## style-mem rules` section of `MEMORY.md` in this shape:
