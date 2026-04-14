@@ -49,8 +49,14 @@ The caller (a command or hook) tells you which mode you are in:
    - nudge mode: 0.35 (slightly higher than manual to reflect the "observed twice, independently" nature of signals that survived dedup across edits+conversation)
 
 5. **Ask the user** (use the exact prompt in ../../docs/save-confirmation-prompt.md)
-   - Group candidates by category, max 5 per prompt.
+   - **Default: one-by-one interactive form.** Present exactly one candidate
+     at a time using the single-rule shape, and always append
+     `수정할 부분 있나요? 없으면 [y/e/p/n/s] 중 선택해주세요.`
+   - Wait for the reply, resolve that rule (including any free-form edits),
+     then move to the next. Do not pre-dump the full candidate list.
    - Options: `[y] save observed` / `[e] edit then save` / `[p] promote to established` / `[n] reject` / `[s] skip`.
+   - Batch (multi-rule) form is opt-in only: use it when the user explicitly
+     requests "일괄", "batch", or "한 번에".
 
 6. **Persist**
    - For `y`: append under `## Observed` in the category file with frontmatter-style metadata block.
