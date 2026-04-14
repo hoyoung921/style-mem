@@ -1,0 +1,17 @@
+{
+  "name": "style-mem-marketplace",
+  "owner": {
+    "name": "hoyoung921"
+  },
+  "plugins": [
+    {
+      "name": "style-mem",
+      "source": {
+        "source": "github",
+        "repo": "hoyoung921/style-mem"
+      },
+      "description": "Incremental coding-style and UX-pattern memory (Hermes-inspired)",
+      "version": "0.1.0"
+    }
+  ]
+}
