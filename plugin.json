@@ -2,6 +2,6 @@
   "name": "style-mem",
   "version": "0.1.0",
   "description": "Incremental coding-style and UX-pattern memory (Hermes-inspired)",
-  "skills": ["style-observer"],
+  "skills": ["style-observer", "style-apply"],
   "commands": ["style-learn", "style-scan", "style-show"]
 }
