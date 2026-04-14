@@ -1,3 +1,4 @@
 .DS_Store
 *.swp
 .nudge-state.json
+.last-applied.json
