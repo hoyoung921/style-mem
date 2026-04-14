@@ -18,9 +18,7 @@ Show learned style rules.
    `~/.claude/projects/<PROJECT_SLUG>/memory/style-mem`
    (Use the same slug Claude Code uses for the current working directory's auto-memory.)
 
-2. If the `style-mem/` directory does not exist, respond:
-   `style-mem 저장소가 없습니다. 'bash ~/Documents/project/style-mem/scripts/init-memory-store.sh <memory_root>' 로 먼저 초기화하세요.`
-   Then stop.
+2. If the `style-mem/` directory does not exist, **auto-bootstrap**: run `scripts/init-memory-store.sh <memory_root>` from the plugin, then continue (the result will simply show zero rules).
 
 3. Read the project's `MEMORY.md` and extract the `## style-mem rules` section. Parse each line into `(category, rule_id, category_file)`.
 

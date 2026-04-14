@@ -24,17 +24,18 @@ Classify files under `<path>` by filename suffix / path component:
 
 ## Steps
 
-1. Resolve memory root and confirm `style-mem/` exists. If not, instruct scaffold and stop.
-2. Use the Glob tool: `<path>/**/*.swift`.
-3. Bucket matches into layers using the rules above.
-4. **Sampling mode (default)**: take up to 5 files per layer, preferring the largest files (likely most representative). **Deep mode**: take all.
-5. For each selected file, use the Read tool to load its contents.
-6. Invoke the `style-observer` skill with `mode: scan` and pass:
+1. Resolve the project's `style-mem/` memory root (under the auto-memory dir).
+2. If it doesn't exist, **auto-bootstrap**: run `scripts/init-memory-store.sh <memory_root>` from the plugin. This creates the store AND injects a `## style-mem rules` section into the project's `MEMORY.md`.
+3. Use the Glob tool: `<path>/**/*.swift`.
+4. Bucket matches into layers using the rules above.
+5. **Sampling mode (default)**: take up to 5 files per layer, preferring the largest files (likely most representative). **Deep mode**: take all.
+6. For each selected file, use the Read tool to load its contents.
+7. Invoke the `style-observer` skill with `mode: scan` and pass:
    - the full list of (file_path, file_contents) pairs
    - the category filter (if any)
    - a flag: `deep: true|false` (affects initial confidence — see observer Step 4)
-7. Observer runs its extraction + dedup + approval loop.
-8. After completion, print a summary:
+8. Observer runs its extraction + dedup + approval loop.
+9. After completion, print a summary:
    `스캔 완료: <N>개 파일 검사, 후보 <M>개 중 저장 <S>개 / 거부 <R>개 / 건너뜀 <K>개.`
 
 ## Safety
