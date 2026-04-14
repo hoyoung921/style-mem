@@ -15,8 +15,8 @@ Manual learning pass over the current conversation.
 
 ## Steps
 
-1. Resolve the project's `style-mem/` memory root.
-2. If it doesn't exist, instruct the user to run the scaffold script and stop.
+1. Resolve the project's `style-mem/` memory root (under the auto-memory dir).
+2. If it doesn't exist, **auto-bootstrap**: run `scripts/init-memory-store.sh <memory_root>` from the plugin. This creates the store AND injects a pointer line into the project's `MEMORY.md` so the rule index is visible in every future conversation.
 3. Invoke the `style-observer` skill with:
    - mode: `conversation`, `edits`, or both based on flags
    - category filter (if any)
