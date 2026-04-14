@@ -21,6 +21,7 @@ The caller (a command or hook) tells you which mode you are in:
 1. **conversation** — analyze the last ~20 user/assistant messages.
 2. **edits** — analyze the diffs of the last ~10 Edit/Write tool calls.
 3. **scan** — a list of file paths (and their contents) is provided by `/style-scan`.
+4. **nudge** — periodic self-check from `nudge-tracker`. Treat as combined (conversation + edits) but bias toward recent signals and only surface HIGH-signal candidates (skip one-shot observations). Be more conservative than manual modes.
 
 ## Procedure
 
@@ -45,6 +46,7 @@ The caller (a command or hook) tells you which mode you are in:
    - scan mode, 1 file: 0.3
    - scan mode, ≥3 files with same signal: 0.5
    - scan mode with `--deep`, ≥10 files with same signal: 0.75
+   - nudge mode: 0.35 (slightly higher than manual to reflect the "observed twice, independently" nature of signals that survived dedup across edits+conversation)
 
 5. **Ask the user** (use the exact prompt in ../../docs/save-confirmation-prompt.md)
    - Group candidates by category, max 5 per prompt.
