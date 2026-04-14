@@ -34,6 +34,7 @@ The caller (a command or hook) tells you which mode you are in:
    - Convert each signal into a **procedure**, not a fact:
      - BAD: "camelCase를 쓴다"
      - GOOD: "새 변수를 선언할 때: 1) 첫 단어 소문자 2) 이후 단어 대문자 3) 약어는 전부 소문자"
+   - **Be concise**: title = one short line; Procedure = **max 3 steps**, each ≤ ~80 chars. Drop obvious/redundant steps. If a signal truly needs more, split into two rules rather than bloat one.
    - Classify into one of the 7 categories. If it doesn't fit, drop it.
 
 3. **Dedupe and filter**
