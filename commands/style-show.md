@@ -20,9 +20,9 @@ Show learned style rules.
 
 2. If the `style-mem/` directory does not exist, **auto-bootstrap**: run `scripts/init-memory-store.sh <memory_root>` from the plugin, then continue (the result will simply show zero rules).
 
-3. Read the project's `MEMORY.md` and extract the `## style-mem rules` section. Parse each line into `(category, rule_id, category_file)`.
+3. Enumerate category files directly by listing `style-mem/code/*.md` and `style-mem/ux/*.md`. MEMORY.md is not used.
 
-4. For each category file referenced in the section (filtered by `--category` if provided):
+4. For each category file (filtered by `--category` if provided):
    - Use the Read tool on the category file.
    - Extract the `## Established` section.
    - If `--all`, also extract `## Observed`.

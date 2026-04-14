@@ -56,15 +56,15 @@ write_category "$STORE/code/ui_layout.md"      ui_layout      code
 write_category "$STORE/ux/ui_interaction.md"   ui_interaction ux
 write_category "$STORE/ux/navigation.md"       navigation     ux
 
-# MEMORY.md style-mem section injection
+# MEMORY.md pointer line injection (single line, no per-rule index)
 MEMORY="$ROOT/MEMORY.md"
-HEADER='## style-mem rules'
+LINE='- [style-mem rules](style-mem/) — 학습된 코딩/UX 스타일 (점진 강화)'
 if [[ -f "$MEMORY" ]]; then
-  if ! grep -Fq "$HEADER" "$MEMORY"; then
-    printf '\n%s\n\n_(none yet — rules appear here as they are learned)_\n' "$HEADER" >> "$MEMORY"
+  if ! grep -Fq "style-mem/" "$MEMORY"; then
+    printf '\n%s\n' "$LINE" >> "$MEMORY"
   fi
 else
-  printf '%s\n\n_(none yet — rules appear here as they are learned)_\n' "$HEADER" > "$MEMORY"
+  printf '%s\n' "$LINE" > "$MEMORY"
 fi
 
 echo "style-mem store initialized at $STORE"

@@ -30,7 +30,7 @@ Manual forgetting of rules.
 
       삭제할까요? [y/n]
       ```
-   e. On `y`: remove the block, append to `rejected.md`, and remove the matching line from the `## style-mem rules` section of `MEMORY.md`.
+   e. On `y`: remove the block and append to `rejected.md`. Do not touch MEMORY.md.
 3. **Category mode** (`--category`):
    a. Read the category file.
    b. Count rules. Show summary:
@@ -41,13 +41,13 @@ Manual forgetting of rules.
       ...
       모두 삭제할까요? [y/n]
       ```
-   c. On `y`: move each rule block to `rejected.md` (grouped under today's date), clear both sections in the category file, and remove every matching line from the `## style-mem rules` section of `MEMORY.md`.
+   c. On `y`: move each rule block to `rejected.md` (grouped under today's date) and clear both sections in the category file. Do not touch MEMORY.md.
 4. **All mode** (`--all`):
    a. List every category with counts.
    b. First confirmation: `정말 모든 규칙을 삭제할까요? [y/n]`
    c. If `y`, second confirmation: `복구 불가능합니다. 한 번 더 확인해주세요. [yes/no]`
    d. Only on literal `yes`: execute.
-   e. All category files reset to empty `## Established` / `## Observed` sections; every rule appended to `rejected.md`; the `## style-mem rules` section of MEMORY.md reset to the placeholder `_(none yet — rules appear here as they are learned)_`.
+   e. All category files reset to empty `## Established` / `## Observed` sections; every rule appended to `rejected.md`. Do not touch MEMORY.md.
 
 ## rejected.md append format
 ```
@@ -63,4 +63,4 @@ Manual forgetting of rules.
 - Always show the rule body before deletion.
 - `--all` requires two confirmations (`y` then `yes`).
 - Never delete `rejected.md` itself.
-- Only modify the `## style-mem rules` section of MEMORY.md. Never touch other sections.
+- Never touch MEMORY.md.

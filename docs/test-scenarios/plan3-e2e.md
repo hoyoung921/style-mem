@@ -10,7 +10,7 @@ Exercises the full plugin: manual learning, automatic application, reinforcement
 
 1. **Backfill**: `/style-scan trot/Sources/Chat`. Approve 3 rules across different categories.
 2. **Verify**: `/style-show` lists the 3 rules (all observed).
-3. **Manual promote**: in `code/naming.md`, bump one rule's conf to 0.75 and move to established. Update the rule's line in MEMORY.md's `## style-mem rules` section if its title changed.
+3. **Manual promote**: in `code/naming.md`, bump one rule's conf to 0.75 and move to established. MEMORY.md is not touched.
 4. **Trigger apply**: ask Claude to create `trot/Sources/Test/E2EViewModel.swift`. Confirm style-apply logs the rule. Confirm generated code follows it.
 5. **Accept reaction**: "완벽해, 이대로 써줘". Confirm confidence bumps up.
 6. **Nudge simulation**:

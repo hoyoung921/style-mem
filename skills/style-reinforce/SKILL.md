@@ -47,7 +47,7 @@ Let `c` be the current confidence of a rule, bounded to [0, 1].
    [y] 삭제 (rejected.md에 기록)
    [n] 유지
    ```
-7. **Update MEMORY.md `## style-mem rules` section** if promotions/demotions/deletions changed rule titles or removed rules: edit or remove the corresponding lines. Do not rewrite unrelated lines.
+7. Never touch MEMORY.md. Promotions/demotions/deletions are recorded only in the category files and `rejected.md`.
 8. **Delete `.last-applied.json`** after processing (prevents double-counting on next message).
 
 ## Worked examples

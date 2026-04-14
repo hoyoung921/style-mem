@@ -30,7 +30,7 @@ Runs just before Claude calls Edit or Write on a source file. Loads relevant est
    - `repository` → `code/naming`, `code/error_handling`
    - `other` → `code/naming`, `code/comments`
 
-5. **Read the `## style-mem rules` section of MEMORY.md** to see which categories have any rules. For each relevant category that appears there, Read the corresponding category file under `style-mem/`.
+5. For each relevant category, Read the corresponding file under `style-mem/` directly (e.g. `style-mem/code/naming.md`). Do NOT consult MEMORY.md.
 
 6. **Extract established rules only.** Ignore `## Observed`.
 

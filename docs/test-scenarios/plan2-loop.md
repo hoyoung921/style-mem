@@ -15,7 +15,7 @@ Runs through the full observe→apply→reinforce cycle by hand.
 
 ### 2. Promote manually to test apply
 1. Edit `code/comments.md` and bump conf to `0.75`, move block to `## Established`.
-2. Confirm the rule's line in MEMORY.md's `## style-mem rules` section still points to the updated block.
+2. Confirm the category file reflects the promotion. MEMORY.md is not touched.
 
 ### 3. Apply during a task
 1. Ask: "trot/Sources/Test/Scratch.swift 라는 간단한 ViewController 템플릿 만들어줘."

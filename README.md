@@ -37,7 +37,7 @@ All rules live under your project's Claude Code auto-memory directory:
 └── ux/{ui_interaction,navigation}.md
 ```
 
-The project's `MEMORY.md` gains a `## style-mem rules` section that indexes every saved rule as one line, pointing into the category files. This keeps the index visible in every future conversation while category files hold the full rule bodies. MEMORY.md is kept under 200 lines — hooks on entries are optional and may be trimmed if space runs low.
+The project's `MEMORY.md` gets a single pointer line to the `style-mem/` directory so future conversations know the store exists. Rule contents live only in the category files — MEMORY.md is never modified per-rule, keeping the 200-line memory budget untouched.
 
 ## Design docs
 

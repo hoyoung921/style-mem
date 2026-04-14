@@ -27,8 +27,8 @@ The caller (a command or hook) tells you which mode you are in:
 
 1. **Load memory state**
    - Read every category file under `style-mem/` and `style-mem/rejected.md`.
-   - Also read the `## style-mem rules` section of the project's `MEMORY.md` (the index).
    - Build in memory: `existing_rules[(category, normalized_text)]` and `rejected_rules[(category, normalized_text)]`.
+   - MEMORY.md is NOT consulted here — the category files are the source of truth.
 
 2. **Extract signals**
    - From the input mode, pick out concrete, repeatable signals (not one-off facts).
@@ -92,12 +92,7 @@ The caller (a command or hook) tells you which mode you are in:
    - `저장` (candidate tagged `suspected_duplicate_of: R<id>`): do NOT append. Instead bump `Observed count` by 1 and set `Last reinforced: <today>` on R<id>.
    - `수정`: apply the user's edit, then save as a new rule (even if the original was tagged — edited text is treated as distinct).
    - `건너뛰기`: no write.
-   - After writing, update the category file's `updated:` field, and append one
-     line to the `## style-mem rules` section of `MEMORY.md` in this shape:
-     `- [<category> R<id>: <title>](style-mem/<category_file>.md#r<id>) — <hook>`
-     where `<hook>` is an optional short phrase (drop it if MEMORY.md is
-     approaching 200 lines). Remove any `_(none yet ...)_` placeholder line
-     in the section on first insert.
+   - After writing, update the category file's `updated:` field. Do NOT touch MEMORY.md — it only holds a single pointer line to the `style-mem/` directory and must not be modified by this skill.
 
 7. **Return a summary**
    - Lines saved / skipped, per category.
@@ -124,6 +119,5 @@ Rule IDs are unique per category file. Read the file first to pick the next free
 ## Safety rules (non-negotiable)
 - NEVER write to any file without first showing the candidate to the user and receiving an explicit `저장` or `수정` answer via AskUserQuestion.
 - NEVER propose rules that already exist in `rejected.md`.
-- Only modify the `## style-mem rules` section of MEMORY.md. Never touch other sections.
-- Keep MEMORY.md under 200 lines. If near the limit, drop the optional hook from new entries or shorten titles rather than bloating the file.
+- NEVER modify MEMORY.md. It holds a single pointer line to `style-mem/` and nothing else from this skill.
 - ALWAYS record evidence (file path + line number, or conversation excerpt) for each rule.
