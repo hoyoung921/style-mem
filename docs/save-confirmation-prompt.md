@@ -18,31 +18,34 @@ Both `/style-learn`, `/style-scan`, and the observer skill MUST use this exact p
   - ...
 
 이 규칙을 저장할까요?
-[y] 저장 (observed 섹션)
-[e] 수정 후 저장
-[p] 승격 저장 (바로 established)
-[n] 거부 (rejected.md에 기록, 재제안 안 함)
-[s] 건너뛰기 (이번만 저장 안 함, 다시 제안 가능)
+- 저장 (observed 섹션)
+- 수정 후 저장
+- 건너뛰기 (이번만 저장 안 함, 다시 제안 가능)
 ```
 
-## Interactive one-by-one form (default)
+## Interactive one-by-one form (default, via AskUserQuestion)
 
-This is the **default** mode. Present exactly one candidate at a time in the
-single-rule shape above, then append this line before waiting for the user:
+This is the **default** mode. For each candidate:
 
-```
-수정할 부분 있나요? 없으면 [y/e/p/n/s] 중 선택해주세요.
-```
+1. Print the single-rule shape above as plain text (so the user can read the
+   full rule).
+2. Call `AskUserQuestion` **once**, with a single question and these three
+   options (labels in Korean):
+   - `저장` — observed 섹션에 저장
+   - `수정` — 내용 수정 후 저장
+   - `건너뛰기` — 이번만 저장 안 함
 
 Rules:
-- Do NOT show the next candidate until the current one is resolved (saved,
-  rejected, or skipped).
-- If the user replies with free-form text describing a change (e.g. "절차
-  2번을 ~로 바꿔줘", "신뢰도 낮춰"), treat it as an implicit `e`: edit the
-  rule text in place, re-display the full single-rule prompt with the edits
-  applied, then ask again.
-- After resolving a rule, show a short progress line like
-  `(2/7 처리됨, 다음 규칙으로 넘어갑니다)` and continue.
+- Exactly **one candidate per AskUserQuestion call**. Never bundle multiple
+  candidates into one question, and never list them in a single prompt.
+- Do NOT show or ask about the next candidate until the current one is
+  resolved.
+- If the user chooses `수정`, follow up (another AskUserQuestion or
+  free-form text) to capture the change, apply it, re-print the updated
+  single-rule shape, and ask again with the same 3 options.
+- After resolving, print a short progress line like
+  `(2/7 처리됨, 다음 규칙으로 넘어갑니다)` and continue with the next
+  AskUserQuestion call.
 
 ## Multi-rule (batch) form — opt-in only
 

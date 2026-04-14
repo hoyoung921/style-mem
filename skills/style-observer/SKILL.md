@@ -50,25 +50,30 @@ The caller (a command or hook) tells you which mode you are in:
    - nudge mode: 0.35 (slightly higher than manual to reflect the "observed twice, independently" nature of signals that survived dedup across edits+conversation)
 
 5. **Ask the user** (use the exact prompt in ../../docs/save-confirmation-prompt.md)
-   - **Default: one-by-one interactive form.** Present exactly one candidate
-     at a time using the single-rule shape, and always append
-     `수정할 부분 있나요? 없으면 [y/e/p/n/s] 중 선택해주세요.`
-   - Wait for the reply, resolve that rule (including any free-form edits),
-     then move to the next. Do not pre-dump the full candidate list.
-   - Options: `[y] save observed` / `[e] edit then save` / `[p] promote to established` / `[n] reject` / `[s] skip`.
+   - **Default: AskUserQuestion, one candidate per call, in Korean.**
+     For each candidate, display the single-rule shape as text first, then
+     invoke `AskUserQuestion` with exactly one question whose options are:
+     `저장`, `수정`, `건너뛰기`.
+   - Wait for the answer, resolve that rule, then move to the next candidate
+     with another `AskUserQuestion` call. Never batch multiple candidates
+     into a single AskUserQuestion call or a single prompt.
+   - If the user picks `수정`, ask a follow-up `AskUserQuestion` (or accept
+     free-form text) describing the edit, apply it, re-display, then ask
+     again with the same 3 options.
    - Batch (multi-rule) form is opt-in only: use it when the user explicitly
      requests "일괄", "batch", or "한 번에".
+   - NEVER invent bulk shortcut syntax like `y all`, `y all except E1`,
+     `p A1 A2, y rest`, or any English combined reply. All prompts MUST be
+     in Korean and go through AskUserQuestion, one rule at a time.
 
 6. **Persist**
-   - For `y`: append under `## Observed` in the category file with frontmatter-style metadata block.
-   - For `p`: append under `## Established` with `confidence >= 0.7`.
-   - For `n`: append to `rejected.md` with today's date + reason.
-   - For `e`: show edit, then apply `y`.
-   - For `s`: no write.
+   - `저장`: append under `## Observed` in the category file with frontmatter-style metadata block.
+   - `수정`: apply the user's edit, then save as `저장`.
+   - `건너뛰기`: no write.
    - After writing, update `INDEX.md` counts and `updated:` field.
 
 7. **Return a summary**
-   - Lines saved / rejected / skipped, per category.
+   - Lines saved / skipped, per category.
 
 ## Rule entry format
 
@@ -90,7 +95,7 @@ When you append a new rule under `## Observed` or `## Established`, write it exa
 Rule IDs are unique per category file. Read the file first to pick the next free ID (`R1`, `R2`, ...).
 
 ## Safety rules (non-negotiable)
-- NEVER write to any file without first showing the candidate(s) to the user and receiving an explicit approval token (`y`, `e`, or `p`).
+- NEVER write to any file without first showing the candidate to the user and receiving an explicit `저장` or `수정` answer via AskUserQuestion.
 - NEVER propose rules that already exist in `rejected.md`.
 - NEVER exceed 200 lines in MEMORY.md; this skill does not touch MEMORY.md at all (only INDEX.md and category files).
 - ALWAYS record evidence (file path + line number, or conversation excerpt) for each rule.
